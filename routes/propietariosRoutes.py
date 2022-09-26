@@ -30,10 +30,9 @@ def read(collection, id = None):
 def update(collection, id):
     try:
         if id:
-            coll = collection.document(id).get()
-            return jsonify(coll.to_dict()), 200
+            collection.document(id).update(request.json)
+            return jsonify({'success': True}), 200
         else:
-            all_coll = [doc.to_dict() for doc in collection.stream()]
-            return jsonify(all_coll), 200
+            return jsonify({'error': 'el propietario no existe'}), 400
     except Exception as e:
-        return f'Error leyendo propietarios: {e}'
+        return f'Error actualizando propietarios: {e}'

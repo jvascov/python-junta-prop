@@ -25,7 +25,7 @@ def leerPropietarios():
     collection_propietarios = db.collection('propietarios')
     return readProp(collection_propietarios)
 
-@app.route('/propietarios/<string:id>', methods=['GET', 'UPDATE'])
+@app.route('/propietarios/<string:id>', methods=['GET', 'PUT'])
 def leerPropietario(id):
     collection_propietarios = db.collection('propietarios')
 
