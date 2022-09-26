@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -14,6 +15,16 @@ default_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
+""" 
+register/login
+Registrar propietarios - apartamentos
+Registrar acta
+Registrar temas
+Activar temas votacion
+votacion
+resultados
+
+"""
 
 @app.route('/propietarios', methods=['POST'])
 def crearPropietario():

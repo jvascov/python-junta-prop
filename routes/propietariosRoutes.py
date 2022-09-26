@@ -1,9 +1,17 @@
 from flask import Flask, request, jsonify
+from firebase_admin import auth
 
 
 def create(collection):
     try:
         id = request.json['id']
+        email = request.json['email']
+        password = request.json['password']
+
+        if email is None or password is None:
+            return {'message': 'Error capturando email o password'},400
+
+        user = auth.create_user(email = email, password = password)
         
         col = collection.document(id).get()
 
