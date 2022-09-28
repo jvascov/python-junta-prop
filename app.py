@@ -8,6 +8,7 @@ from functools import wraps
 
 from routes.authRoutes import signin, signout
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
+from routes.actasRoutes import create as createAct, read as readAct, update as updateAct
 
 app = Flask(__name__)
 
@@ -39,22 +40,23 @@ resultados
 """
 def validarRole(f):
     @wraps(f)
-    def _validarRole():
+    def _validarRole(*args, **kargs):
         if session['user']['role'] == 'admin':
-            return f()
+            return f(*args, **kargs)
         else:
             return jsonify({'error': 'Usuario no autorizado'}), 400
     return _validarRole
     
 def validarAutenticacion(f):
     @wraps(f)
-    def _validarAutenticacion():
+    def _validarAutenticacion(*args, **kargs):
         if('user' in session):
-            return f()
+            return f(*args, **kargs)
         else:
             return jsonify({'error': 'Usuario no autenticado'}), 400
     return _validarAutenticacion
-            
+
+''' PROPIETARIOS '''           
 
 @app.route('/propietarios', methods=['POST'])
 @validarAutenticacion
@@ -80,6 +82,37 @@ def leerPropietario(id):
         return readProp(collection_propietarios, id)
     else:
         return updateProp(collection_propietarios, id)
+
+'''ACTAS'''
+
+@app.route('/actas', methods=['POST'])
+@validarAutenticacion
+@validarRole
+def crearActa():
+    collection_propietarios = db.collection('actas')
+    return createAct(collection_propietarios)
+
+@app.route('/actas', methods=['GET'])
+@validarAutenticacion
+@validarRole
+def leerActas():
+    collection_propietarios = db.collection('actas')
+    return readAct(collection_propietarios)
+
+
+@app.route('/actas/<string:id>', methods=['GET', 'PUT'])
+@validarAutenticacion
+@validarRole
+def leerActa(id):
+    print('id', id)
+    collection_propietarios = db.collection('actas')
+
+    if request.method == 'GET':
+        return readAct(collection_propietarios, id)
+    else:
+        return updateAct(collection_propietarios, id)
+
+
 
 @app.route('/login', methods=['POST'])
 def login():
