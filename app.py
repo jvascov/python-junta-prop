@@ -8,6 +8,8 @@ from functools import wraps
 
 from routes.authRoutes import signin, signout
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
+from routes.actasRoutes import create as createAct, read as readAct, update as updateAct
+from routes.temasRoutes import crearTema, leerTemas, updateTema
 
 app = Flask(__name__)
 
@@ -39,22 +41,23 @@ resultados
 """
 def validarRole(f):
     @wraps(f)
-    def _validarRole(*args, **kwargs):
+    def _validarRole(*args, **kargs):
         if session['user']['role'] == 'admin':
-            return f(*args, **kwargs)
+            return f(*args, **kargs)
         else:
             return jsonify({'error': 'Usuario no autorizado'}), 400
     return _validarRole
     
 def validarAutenticacion(f):
     @wraps(f)
-    def _validarAutenticacion(*args, **kwargs):
+    def _validarAutenticacion(*args, **kargs):
         if('user' in session):
-            return f(*args, **kwargs)
+            return f(*args, **kargs)
         else:
             return jsonify({'error': 'Usuario no autenticado'}), 400
     return _validarAutenticacion
-            
+
+''' PROPIETARIOS '''           
 
 @app.route('/propietarios', methods=['POST'])
 @validarAutenticacion
@@ -80,6 +83,63 @@ def leerPropietario(id):
         return readProp(collection_propietarios, id)
     else:
         return updateProp(collection_propietarios, id)
+
+'''ACTAS'''
+
+@app.route('/actas', methods=['POST'])
+@validarAutenticacion
+@validarRole
+def crearActa():
+    collection_actas = db.collection('actas')
+    return createAct(collection_actas)
+
+@app.route('/actas', methods=['GET'])
+@validarAutenticacion
+@validarRole
+def leerActas():
+    collection_actas = db.collection('actas')
+    return readAct(collection_actas)
+
+
+@app.route('/actas/<string:id>', methods=['GET', 'PUT'])
+@validarAutenticacion
+@validarRole
+def leerActa(id):
+    collection_actas = db.collection('actas')
+
+    if request.method == 'GET':
+        return readAct(collection_actas, id)
+    else:
+        return updateAct(collection_actas, id)
+
+'''TEMAS'''
+
+@app.route('/temas', methods=['POST'])
+@validarAutenticacion
+@validarRole
+def crearTema():
+    collection_temas = db.collection('temas')
+    return createAct(collection_temas)
+
+@app.route('/actas', methods=['GET'])
+@validarAutenticacion
+@validarRole
+def leerTemas():
+    collection_temas = db.collection('temas')
+    return readAct(collection_temas)
+
+@app.route('/temas/<string:id>', methods=['GET', 'PUT'])
+@validarAutenticacion
+@validarRole
+def leerActa(id):
+    collection_temas = db.collection('temas')
+
+    if request.method == 'GET':
+        return readAct(collection_temas, id)
+    else:
+        return updateAct(collection_temas, id)
+
+
 
 @app.route('/login', methods=['POST'])
 def login():
