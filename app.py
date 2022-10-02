@@ -39,18 +39,18 @@ resultados
 """
 def validarRole(f):
     @wraps(f)
-    def _validarRole():
+    def _validarRole(*args, **kwargs):
         if session['user']['role'] == 'admin':
-            return f()
+            return f(*args, **kwargs)
         else:
             return jsonify({'error': 'Usuario no autorizado'}), 400
     return _validarRole
     
 def validarAutenticacion(f):
     @wraps(f)
-    def _validarAutenticacion():
+    def _validarAutenticacion(*args, **kwargs):
         if('user' in session):
-            return f()
+            return f(*args, **kwargs)
         else:
             return jsonify({'error': 'Usuario no autenticado'}), 400
     return _validarAutenticacion
@@ -75,7 +75,7 @@ def leerPropietarios():
 @validarRole
 def leerPropietario(id):
     collection_propietarios = db.collection('propietarios')
-
+    print('id:',id)
     if request.method == 'GET':
         return readProp(collection_propietarios, id)
     else:
