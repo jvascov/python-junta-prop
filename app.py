@@ -119,25 +119,25 @@ def leerActa(id):
 @validarRole
 def crearTema():
     collection_temas = db.collection('temas')
-    return createAct(collection_temas)
+    return crearTema(collection_temas)
 
 @app.route('/actas', methods=['GET'])
 @validarAutenticacion
 @validarRole
 def leerTemas():
     collection_temas = db.collection('temas')
-    return readAct(collection_temas)
+    return leerTemas(collection_temas)
 
 @app.route('/temas/<string:id>', methods=['GET', 'PUT'])
 @validarAutenticacion
 @validarRole
-def leerActa(id):
+def leerTema(id):
     collection_temas = db.collection('temas')
 
     if request.method == 'GET':
         return readAct(collection_temas, id)
     else:
-        return updateAct(collection_temas, id)
+        return updateTema(collection_temas, id)
 
 
 
