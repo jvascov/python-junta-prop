@@ -8,6 +8,7 @@ auth = firebase.auth()
 
 def signin(email, password, collection):
     if ('user' in session):
+        print('session', session)
         return session['user']
 
     try:

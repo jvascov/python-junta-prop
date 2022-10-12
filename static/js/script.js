@@ -2,11 +2,12 @@ btnLogin = document.getElementById("enviar-btn");
 
 
 async function login() {
+
     await fetch('http://localhost:8080/login', {
         method: 'POST',
         body: JSON.stringify({
-            email: "patriciacr0107@gmail.com",
-            password: "123456789"
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
         }),
         headers: {
             "Content-type": "application/json"
