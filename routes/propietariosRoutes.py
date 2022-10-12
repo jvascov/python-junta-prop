@@ -5,8 +5,11 @@ import config.fbConfig as fbConfig
 firebase = pyrebase.initialize_app(fbConfig.config)
 auth = firebase.auth()
 
+
 def create(collection):
     try:
+        print('Crear propietario')
+        print(request)
         id = request.json['id']
 
         col = collection.document(id).get()
@@ -16,22 +19,24 @@ def create(collection):
             password = request.json['password']
 
             if email is None or password is None:
-                return {'message': 'Error capturando email o password'},400
+                return {'message': 'Error capturando email o password'}, 400
 
-            user = auth.create_user_with_email_and_password (email, password)
-            
+            user = auth.create_user_with_email_and_password(email, password)
+
             # Enviar email de verificación
             # auth.send_email_verification(user['idToken'])
-            
+
             collection.document(id).set(request.json)
             return jsonify({'success': True}), 200
         else:
             return jsonify({'error': 'el propietario ya existe'}), 400
     except Exception as e:
-        return f'Error registrando propietario: {e}'
+        print('Error', e)
+        return {"error": f'Error registrando propietario: {e}'
+                }, 400
 
 
-def read(collection, id = None):
+def read(collection, id=None):
     try:
         if id:
             coll = collection.document(id).get()
@@ -41,6 +46,7 @@ def read(collection, id = None):
             return jsonify(all_coll), 200
     except Exception as e:
         return f'Error leyendo propietarios: {e}'
+
 
 def update(collection, id):
     try:

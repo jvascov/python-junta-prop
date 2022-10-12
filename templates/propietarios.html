@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propietarios</title>
+    <link rel="stylesheet" href="../static/css/propietarios.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="contenedor-principal">
+        <div id='menu'>
+            <nav>
+                <div class="nav">
+                    <div class="menu">
+                        <ul>
+                            <li><a href="#" class="item-menu" id="propietarios-mnu">Propietarios</a></li>
+                            <li><a href="" class="item-menu">Actas</a></li>
+                            <li><a href="" class="item-menu">Votaciones</a>
+                            </li>
+                            <li id='mnu-usuarios'><a href="" class="item-menu">Resultados</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="contenedor-propietarios" id="contenedor-propietarios">
+            <h1 class="titulo-seccion">Propietarios</h1>
+            <div class="opciones" id="opciones-btn">
+                <button class="agregar-btn" id="enviar-btn" onclick=mostrarFormAgregar()>
+                    <span>+</span></button>
+            </div>
+
+            <div id="datos-propietario" class="contenedor-datos">
+                <table class="datos-propietarios" cellpadding="2" cellspacing="5" id="tbl-propietarios">
+                    <tr>
+                        <th>
+                            <div class="titulo">
+                                <span>Nombre</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="titulo">
+                                Celular
+                            </div>
+                        </th>
+                        <th>
+                            <div class="titulo">Email
+                            </div>
+                        </th>
+                        <th>
+                            <div class="titulo">Role
+                            </div>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>Patricia Carmona</td>
+                        <td>3002366644</td>
+                        <td>patriciacr0107@gmail.com</td>
+                        <td>admin</td>
+                        <td>...</td>
+                    </tr>
+                    <tr>
+                        <td>Jorge Vasco</td>
+                        <td>3012569988</td>
+                        <td>jvascov@gmail.com</td>
+                        <td>admin</td>
+                        <td>...</td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="contenedor-edicion" id="contenedor-edicion">
+                <Span class="cedula-lb">Cedula</Span><input type="text" name="Cedula" class="cedula-add"
+                    id="cedula-add">
+                <Span class="nombre-lb">Nombre</Span><input type="text" name="Nombre" class="nombre-add"
+                    id="nombre-add">
+                <Span class="celular-lb">Celular</Span><input type="text" name="Celular" class="celular-add"
+                    id="celular-add">
+                <Span class="email-lb">Email</Span><input type="text" name="Email" class="email-add" id="email-add">
+                <Span class="rol-lb">Rol</Span><select name="role" id="role-add" class="role-add">
+                    <option value="admin">Admin</option>
+                    <option value="usuario">User</option>
+                </select>
+                <span class="apto-lb">Apartamento:</span>
+                <span class="torre-lb">Torre</span><input type="text" name="torre" class="torre-add" id="torre-add">
+                <span class="num-lb">Número</span><input type="text" name="numero" class="num-add" id="num-add"><button
+                    class="add-apto-btn" id="add-apto-btn">Agregar Apto</button>
+                <table class="aptos-tbl" id="aptos-tbl">
+                    <tr>
+                        <th>Torre</th>
+                        <th>Número</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>102</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>202</td>
+                    </tr>
+                </table>
+                <button class="add-prop-btn" id="add-prop-btn">Guardar</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <script src="../static/js/propietarios.js"></script>
+</body>
+
+</html>
