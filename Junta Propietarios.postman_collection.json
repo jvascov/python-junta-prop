@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "27f45f65-147d-43e4-b165-4b87f74ae981",
+		"name": "Junta Propietarios",
+		"description": "Aplicación para la administracion de las juntas directivas de las unidades residenciales, el primer modulo y el cual intentamos desarrollar, es la creacion de las actas de las juntas directivas, la toma de decisiones en cada una de las juntas y el resultado de esas votaciones. Actualmente alcanzamos a desarrollar la creacion de propietarios con su front, la consulta de propietarios con su front, el login con el front.\n\nDe los endpoints alcanzamos a desarrolar el resto del crud de propietarios, el crud de las actas y el logaout.\n\nPENDIENTE:\n\nDesarrollar el crud para los temas que se van a tratar en cada acta\n\nDesarrollar el crud para la activacion, votacion y resultados de cada tema.\n\nOpciones de la aplicacion (Front):\n\nAdministracion de propietarios\n\nStartFragment\n\nRegistrar acta\n\nRegistrar temas\n\nActivar temas y votacion\n\nvotacion\n\nresultados\n\nEndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4144430"
+	},
+	"item": [
+		{
+			"name": "Propietarios",
+			"item": [
+				{
+					"name": "Propietarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/propietarios",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"propietarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propietario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/propietarios/8105422",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"propietarios",
+								"8105422"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propietario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"8105422\",\r\n    \"nombre\": \"Jorge Vasco\",\r\n    \"celular\": \"3173610030\",\r\n    \"email\": \"jvascov@gmail.com\",\r\n    \"password\": \"123456789\",\r\n    \"role\": \"admin\",\r\n    \"apartamento\": [\r\n        {\r\n            \"numero\": 101,\r\n            \"torre\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/propietarios",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"propietarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propietario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Jorge Vasco Velez\",\r\n    \"celular\": \"111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/propietarios/8105422",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"propietarios",
+								"8105422"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Modulo para administrar los propietarios"
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"patriciacr0107@gmail.com\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"patriciacr0107@gmail.com\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Actas",
+			"item": [
+				{
+					"name": "Actas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/actas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"actas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Acta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/actas/h6vnAb7AD0lVNYuuvsQt",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"actas",
+								"h6vnAb7AD0lVNYuuvsQt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Acta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"registrada\",\r\n    \"fecha\": \"30/10/2022 19:00:00\",\r\n    \"lugar\": \"salon social\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/actas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"actas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Acta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"registrada\",\r\n    \"fecha\": \"30/09/2022 19:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/actas/sT8z5MIBTPOsEtruiZfX",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"actas",
+								"sT8z5MIBTPOsEtruiZfX"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Modulo de administracion de actas"
+		}
+	]
+}
