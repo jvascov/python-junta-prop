@@ -22,6 +22,7 @@ db = firestore.client()
 
 upload_folder = os.path.join('static')
 
+
 """ 
 register/login
 https://parasmani300.medium.com/pyrebase-firebase-in-flask-d249a065e0df
@@ -92,7 +93,7 @@ def leerPropietarios():
 @validarRole
 def leerPropietario(id):
     collection_propietarios = db.collection('propietarios')
-    print('id:',id)
+    print('id:', id)
     if request.method == 'GET':
         return readProp(collection_propietarios, id)
     else:
@@ -132,7 +133,9 @@ def leerActa(id):
     else:
         return updateAct(collection_actas, id)
 
+
 '''TEMAS'''
+
 
 @app.route('/temas', methods=['POST'])
 @validarAutenticacion
@@ -141,12 +144,14 @@ def crearTema():
     collection_temas = db.collection('temas')
     return crearTema(collection_temas)
 
+
 @app.route('/actas', methods=['GET'])
 @validarAutenticacion
 @validarRole
 def leerTemas():
     collection_temas = db.collection('temas')
     return leerTemas(collection_temas)
+
 
 @app.route('/temas/<string:id>', methods=['GET', 'PUT'])
 @validarAutenticacion
@@ -192,6 +197,10 @@ def opciones():
 @app.route('/propietarios/')
 def propietarios():
     return render_template('propietarios.html')
+
+
+def index():
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
