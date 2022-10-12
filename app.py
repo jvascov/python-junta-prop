@@ -9,6 +9,7 @@ from flask_cors import CORS, cross_origin
 from routes.authRoutes import signin, signout
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
 from routes.actasRoutes import create as createAct, read as readAct, update as updateAct
+from routes.temasRoutes import crearTema, leerTemas, updateTema
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -91,7 +92,7 @@ def leerPropietarios():
 @validarRole
 def leerPropietario(id):
     collection_propietarios = db.collection('propietarios')
-
+    print('id:',id)
     if request.method == 'GET':
         return readProp(collection_propietarios, id)
     else:
@@ -106,8 +107,8 @@ def leerPropietario(id):
 @validarAutenticacion
 @validarRole
 def crearActa():
-    collection_propietarios = db.collection('actas')
-    return createAct(collection_propietarios)
+    collection_actas = db.collection('actas')
+    return createAct(collection_actas)
 
 
 @app.route('/actas', methods=['GET'])
@@ -115,8 +116,8 @@ def crearActa():
 @validarAutenticacion
 @validarRole
 def leerActas():
-    collection_propietarios = db.collection('actas')
-    return readAct(collection_propietarios)
+    collection_actas = db.collection('actas')
+    return readAct(collection_actas)
 
 
 @app.route('/actas/<string:id>', methods=['GET', 'PUT'])
@@ -124,13 +125,39 @@ def leerActas():
 @validarAutenticacion
 @validarRole
 def leerActa(id):
-    print('id', id)
-    collection_propietarios = db.collection('actas')
+    collection_actas = db.collection('actas')
 
     if request.method == 'GET':
-        return readAct(collection_propietarios, id)
+        return readAct(collection_actas, id)
     else:
-        return updateAct(collection_propietarios, id)
+        return updateAct(collection_actas, id)
+
+'''TEMAS'''
+
+@app.route('/temas', methods=['POST'])
+@validarAutenticacion
+@validarRole
+def crearTema():
+    collection_temas = db.collection('temas')
+    return crearTema(collection_temas)
+
+@app.route('/actas', methods=['GET'])
+@validarAutenticacion
+@validarRole
+def leerTemas():
+    collection_temas = db.collection('temas')
+    return leerTemas(collection_temas)
+
+@app.route('/temas/<string:id>', methods=['GET', 'PUT'])
+@validarAutenticacion
+@validarRole
+def leerTema(id):
+    collection_temas = db.collection('temas')
+
+    if request.method == 'GET':
+        return readAct(collection_temas, id)
+    else:
+        return updateTema(collection_temas, id)
 
 
 @app.route('/login', methods=['POST'])
