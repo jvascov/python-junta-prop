@@ -199,9 +199,5 @@ def propietarios():
     return render_template('propietarios.html')
 
 
-def index():
-    return render_template("index.html")
-
-
 if __name__ == '__main__':
     app.run(threaded=True, host='0.0.0.0', port=port, debug=True)
