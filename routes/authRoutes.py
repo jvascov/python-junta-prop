@@ -20,9 +20,12 @@ def signin(email, password, collection):
 
         session['user'] = datos[0]
 
+        print('session2', session)
+
         return jsonify({'user': user,
                         'datos': datos}), 200
     except Exception as e:
+        print('session3', session)
         return f'Error en logueo {e}'
 
 

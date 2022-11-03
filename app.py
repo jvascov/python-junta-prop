@@ -58,6 +58,7 @@ def validarRole(f):
 def validarAutenticacion(f):
     @wraps(f)
     def _validarAutenticacion(*args, **kargs):
+        print('validar',session)
         if ('user' in session):
             return f(*args, **kargs)
         else:
@@ -166,8 +167,9 @@ def login():
     email = request.json['email']
     password = request.json['password']
     collection_propietarios = db.collection('propietarios')
-    return signin(email, password, collection_propietarios)
-
+    propietarios = signin(email, password, collection_propietarios)
+    print('login', session)
+    return propietarios    
 
 @app.route('/logout', methods=['POST'])
 @cross_origin()
