@@ -8,8 +8,6 @@ auth = firebase.auth()
 
 def create(collection):
     try:
-        print('Crear propietario')
-        print(request)
         id = request.json['id']
 
         col = collection.document(id).get()
@@ -20,11 +18,6 @@ def create(collection):
 
             if email is None or password is None:
                 return {'message': 'Error capturando email o password'}, 400
-
-            user = auth.create_user_with_email_and_password(email, password)
-
-            # Enviar email de verificación
-            # auth.send_email_verification(user['idToken'])
 
             collection.document(id).set(request.json)
             return jsonify({'success': True}), 200

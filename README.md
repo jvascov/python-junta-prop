@@ -53,5 +53,4 @@ $env:MONGODB_URL="mongodb://localhost:27017/testCV?retryWrites=true&w=majority"
 
 python -m pip install Flask gunicorn firebase_admin pyrebase4
 
-datetime
-uuid
+python -m pip install Flask datetime uuid pyjwt

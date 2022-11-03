@@ -5,6 +5,8 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from functools import wraps
 from flask_cors import CORS, cross_origin
+import jwt
+import config.fbConfig as fbConfig
 
 from routes.authRoutes import signin, signout
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
@@ -59,11 +61,21 @@ def validarRole(f):
 def validarAutenticacion(f):
     @wraps(f)
     def _validarAutenticacion(*args, **kargs):
-        print('validar',session)
-        if ('user' in session):
-            return f(*args, **kargs)
-        else:
+        token = None
+        bearer =''
+        if 'Authorization' in request.headers:
+            bearer = request.headers['Authorization'].split(' ')
+            token = bearer[1]
+        if not token:
             return jsonify({'error': 'Usuario no autenticado'}), 400
+        
+        try:
+            data = jwt.decode(token, fbConfig.secretKey, algorithms=["HS256"])
+            print('data', data)
+        except:
+            return jsonify({'error': 'Usuario no autenticado'}), 400
+
+        return f(*args, **kargs)
     return _validarAutenticacion
 
 
@@ -73,7 +85,7 @@ def validarAutenticacion(f):
 @app.route('/propietarios', methods=['POST'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def crearPropietario():
     collection_propietarios = db.collection('propietarios')
     return createProp(collection_propietarios)
@@ -82,7 +94,7 @@ def crearPropietario():
 @app.route('/propietarios', methods=['GET'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerPropietarios():
     collection_propietarios = db.collection('propietarios')
     return readProp(collection_propietarios)
@@ -91,7 +103,7 @@ def leerPropietarios():
 @app.route('/propietarios/<string:id>', methods=['GET', 'PUT'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerPropietario(id):
     collection_propietarios = db.collection('propietarios')
     print('id:', id)
@@ -107,7 +119,7 @@ def leerPropietario(id):
 @app.route('/actas', methods=['POST'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def crearActa():
     collection_actas = db.collection('actas')
     return createAct(collection_actas)
@@ -116,7 +128,7 @@ def crearActa():
 @app.route('/actas', methods=['GET'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerActas():
     collection_actas = db.collection('actas')
     return readAct(collection_actas)
@@ -125,7 +137,7 @@ def leerActas():
 @app.route('/actas/<string:id>', methods=['GET', 'PUT'])
 @cross_origin()
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerActa(id):
     collection_actas = db.collection('actas')
 
@@ -140,7 +152,7 @@ def leerActa(id):
 
 @app.route('/temas', methods=['POST'])
 @validarAutenticacion
-@validarRole
+# @validarRole
 def crearTema():
     collection_temas = db.collection('temas')
     return crearTema(collection_temas)
@@ -148,7 +160,7 @@ def crearTema():
 
 @app.route('/actas', methods=['GET'])
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerTemas():
     collection_temas = db.collection('temas')
     return leerTemas(collection_temas)
@@ -156,7 +168,7 @@ def leerTemas():
 
 @app.route('/temas/<string:id>', methods=['GET', 'PUT'])
 @validarAutenticacion
-@validarRole
+# @validarRole
 def leerTema(id):
     collection_temas = db.collection('temas')
 
@@ -173,7 +185,6 @@ def login():
     password = request.json['password']
     collection_propietarios = db.collection('propietarios')
     propietarios = signin(email, password, collection_propietarios)
-    print('login', session)
     return propietarios    
 
 @app.route('/logout', methods=['POST'])

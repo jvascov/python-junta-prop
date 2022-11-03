@@ -1,28 +1,33 @@
 from flask import request, jsonify, session
 import pyrebase
 import config.fbConfig as fbConfig
+import jwt
+import datetime
+# from config.fbConfig import config
 
 firebase = pyrebase.initialize_app(fbConfig.config)
 auth = firebase.auth()
 
 
 def signin(email, password, collection):
-    if ('user' in session):
-        print('session', session)
-        return session['user']
+    # if ('user' in session):
+        # return session['user']
 
     try:
-        user = auth.sign_in_with_email_and_password(email, password)
-
         userData = collection.where('email', '==', email).get()
 
         datos = [doc.to_dict() for doc in userData]
-
-        session['user'] = datos[0]
-
-        print('session2', session)
-
-        return jsonify({'user': user,
+        # print('datos', datos[0]['id'])
+        
+        token = jwt.encode(
+            {
+            'public_id' : datos[0]['id'],
+            'role': datos[0]['role'],
+            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=45)
+            }, fbConfig.secretKey, "HS256")
+       
+        
+        return jsonify({'token': token,
                         'datos': datos}), 200
     except Exception as e:
         print('session3', session)
