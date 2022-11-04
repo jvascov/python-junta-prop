@@ -7,18 +7,35 @@ from functools import wraps
 from flask_cors import CORS, cross_origin
 import jwt
 import config.fbConfig as fbConfig
+import os
+
 
 from routes.authRoutes import signin, signout, getNewToken
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
 from routes.actasRoutes import create as createAct, read as readAct, update as updateAct
 from routes.temasRoutes import crearTema, leerTemas, updateTema
 
+secretKey = os.getenv('secretKey') or fbConfig.secretKey
+
+gKey = {
+    "type": os.getenv('type') or fbConfig.type,
+    "project_id": os.getenv('project_id') or fbConfig.project_id,
+    "private_key_id": os.getenv('private_key_id') or fbConfig.private_key_id,
+    "private_key": os.getenv('private_key') or fbConfig.private_key,
+    "client_email": os.getenv('client_email') or fbConfig.client_email,
+    "client_id": os.getenv('client_id') or fbConfig.client_id,
+    "auth_uri": os.getenv('auth_uri') or fbConfig.auth_uri,
+    "token_uri": os.getenv('token_uri') or fbConfig.token_uri,
+    "auth_provider_x509_cert_url": os.getenv('auth_provider_x509_cert_url') or fbConfig.auth_provider_x509_cert_url,
+    "client_x509_cert_url": os.getenv('client_x509_cert_url') or fbConfig.client_x509_cert_url
+}
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.secret_key = 'ClaveSecreta'
-cred = credentials.Certificate('./config/gKey.json')
+cred = credentials.Certificate(gKey)
 default_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -71,7 +88,7 @@ def validarAutenticacion(f):
             return jsonify({'error': 'No hay token de autenticacion'}), 400
         
         try:
-            data = jwt.decode(token, fbConfig.secretKey, algorithms=["HS256"])
+            data = jwt.decode(token, secretKey, algorithms=["HS256"])
             request.uuid = data['public_id']
             request.role = data['role']
 

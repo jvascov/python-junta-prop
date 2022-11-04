@@ -2,7 +2,20 @@ from flask import Flask, request, jsonify
 import pyrebase
 import config.fbConfig as fbConfig
 
-firebase = pyrebase.initialize_app(fbConfig.config)
+import os
+
+config = {
+    'apiKey' : os.getenv('apiKey') or fbConfig.apiKey,
+    'authDomain' : os.getenv('authDomain') or fbConfig.authDomain,
+    'projectId': os.getenv('projectId') or fbConfig.projectId,
+    'storageBucket': os.getenv('storageBucket') or fbConfig.storageBucket,
+    'messagingSenderId': os.getenv('messagingSenderId') or fbConfig.messagingSenderId,
+    'appId': os.getenv('appId') or fbConfig.appId,
+    'databaseURL': ""
+}
+
+
+firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 def crearTema(collection):

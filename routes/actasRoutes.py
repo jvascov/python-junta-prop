@@ -1,8 +1,20 @@
 from flask import request, jsonify
 import pyrebase
 import config.fbConfig as fbConfig
+import os
 
-firebase = pyrebase.initialize_app(fbConfig.config)
+config = {
+    'apiKey' : os.getenv('apiKey') or fbConfig.apiKey,
+    'authDomain' : os.getenv('authDomain') or fbConfig.authDomain,
+    'projectId': os.getenv('projectId') or fbConfig.projectId,
+    'storageBucket': os.getenv('storageBucket') or fbConfig.storageBucket,
+    'messagingSenderId': os.getenv('messagingSenderId') or fbConfig.messagingSenderId,
+    'appId': os.getenv('appId') or fbConfig.appId,
+    'databaseURL': ""
+}
+
+
+firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 def create(collection):
