@@ -33,6 +33,24 @@ def signin(email, password, collection):
         print('session3', session)
         return f'Error en logueo {e}'
 
+def getNewToken():
+    id = request.uuid
+    role = request.role
+
+    try:
+                        
+        token = jwt.encode(
+            {
+            'public_id' : id,
+            'role': role,
+            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=45)
+            }, fbConfig.secretKey, "HS256")
+       
+        
+        return jsonify({'token': token}), 200
+    except Exception as e:
+        print('session3', session)
+        return f'Error en logueo {e}'
 
 def signout():
     session.pop('user')

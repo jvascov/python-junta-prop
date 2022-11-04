@@ -8,7 +8,7 @@ from flask_cors import CORS, cross_origin
 import jwt
 import config.fbConfig as fbConfig
 
-from routes.authRoutes import signin, signout
+from routes.authRoutes import signin, signout, getNewToken
 from routes.propietariosRoutes import create as createProp, read as readProp, update as updateProp
 from routes.actasRoutes import create as createAct, read as readAct, update as updateAct
 from routes.temasRoutes import crearTema, leerTemas, updateTema
@@ -66,14 +66,19 @@ def validarAutenticacion(f):
         if 'Authorization' in request.headers:
             bearer = request.headers['Authorization'].split(' ')
             token = bearer[1]
+
         if not token:
-            return jsonify({'error': 'Usuario no autenticado'}), 400
+            return jsonify({'error': 'No hay token de autenticacion'}), 400
         
         try:
             data = jwt.decode(token, fbConfig.secretKey, algorithms=["HS256"])
-            print('data', data)
+            request.uuid = data['public_id']
+            request.role = data['role']
+
+            
+            
         except:
-            return jsonify({'error': 'Usuario no autenticado'}), 400
+            return jsonify({'error': 'Usuario no autenticado!'}), 400
 
         return f(*args, **kargs)
     return _validarAutenticacion
@@ -131,6 +136,7 @@ def crearActa():
 # @validarRole
 def leerActas():
     collection_actas = db.collection('actas')
+    
     return readAct(collection_actas)
 
 
@@ -186,6 +192,13 @@ def login():
     collection_propietarios = db.collection('propietarios')
     propietarios = signin(email, password, collection_propietarios)
     return propietarios    
+
+@app.route('/renew', methods=['GET'])
+@cross_origin()
+@validarAutenticacion
+def newToken():
+    return getNewToken()
+
 
 @app.route('/logout', methods=['POST'])
 @cross_origin()

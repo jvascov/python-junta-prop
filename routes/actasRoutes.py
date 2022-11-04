@@ -19,8 +19,16 @@ def read(collection, id = None):
             coll = collection.document(id).get()
             return jsonify(coll.to_dict()), 200
         else:
-            all_coll = [doc.to_dict() for doc in collection.stream()]
+            all_coll = []
+            for doc in collection.stream():
+                dictObj = {}
+                dictObj = doc.to_dict()
+                dictObj['id'] = doc.id
+                all_coll.append(dictObj)
+                
+
             return jsonify(all_coll), 200
+                
     except Exception as e:
         return f'Error leyendo actas: {e}'
 

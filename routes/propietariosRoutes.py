@@ -9,11 +9,15 @@ auth = firebase.auth()
 def create(collection):
     try:
         id = request.json['id']
+        email = request.json['email']
+
+        userData = collection.where('email', '==', email).get()
+
+        datos = [doc.to_dict() for doc in userData]
 
         col = collection.document(id).get()
 
-        if not col.exists:
-            email = request.json['email']
+        if not col.exists and len(datos) == 0:
             password = request.json['password']
 
             if email is None or password is None:
